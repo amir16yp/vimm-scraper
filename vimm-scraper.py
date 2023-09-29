@@ -10,6 +10,22 @@ import time
 BASE_URL = "https://vimm.net"
 DOWNLOAD_URL = "https://download3.vimm.net/download/"
 
+
+def generate_vimm_url(system, section):
+    base_url = "https://vimm.net/vault/"
+    params = {
+        "p": "list",
+        "section": section,
+        "system": system,
+        "countries_select_all": "on",
+        "action": "filters"
+    }
+
+    # Create the URL by joining the base URL and parameters
+    url = base_url + "?" + "&".join([f"{key}={value}" for key, value in params.items()])
+
+    return url
+
 def retry(attempts=5, delay=3):
     """
     Retry wrapped function `attempts` times.
@@ -136,12 +152,16 @@ def download_rom(_url, output_directory='.'):
         _download_rom(media_id, output_directory=output_directory)
     else:
         raise Exception('media_id not found!')
+# Other functions (create_directory_if_not_exists, calculate_md5, strip_for_windows_directory_name, extract_id_from_url) remain the same
 
 def main(system_letters):
+    # system_letters is a dictionary where a system name is mapped to a uppercase letters from the abc, see bellow
+    # todo: implement this shit
+    # Iterate through systems and letters
      for system, letters in system_letters.items():
         for letter in letters:
                 
-            url = f"{BASE_URL}/vault/{system}/{letter}"
+            url = generate_vimm_url(system, letter)
             if letter.startswith("?"):
                 url = f"{BASE_URL}/vault/{letter}"
             # Make an HTTP GET request
