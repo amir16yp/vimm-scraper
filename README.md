@@ -1,4 +1,4 @@
-# README for Standalone Vimm.net Downloader
+# Standalone Vimm.net Downloader
 
 ## Introduction
 
